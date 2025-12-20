@@ -2,11 +2,21 @@
 
 Backend del Sistema de Reservas de Hoteles (SRH)
 
+UNIVERSIDAD POLITÉCNICA SALESIANA - UPS
+
+
 Materia: Ingeniería de Software  
+
 Tarea: T02.03
+
 Grupo: B
 
-Nombre: Andrea Murillo Medina
+Estudiante: Andrea Murillo Medina
+
+Fecha: 22/12/2025
+
+Docente: Darío Huilcapi
+
 
 ## Gestión del Proyecto
 
