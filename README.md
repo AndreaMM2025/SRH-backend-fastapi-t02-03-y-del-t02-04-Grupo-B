@@ -10,7 +10,7 @@ Grupo: B
 
 Integrantes:
 - Andrea Murillo Medina  
-- Andy Arévalo  
+- Andy Arévalo Dueñas
 
 Fecha: 22/12/2025  
 Docente: Darío Huilcapi  
