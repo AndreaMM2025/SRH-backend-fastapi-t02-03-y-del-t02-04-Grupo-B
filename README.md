@@ -8,7 +8,7 @@ Materia: Ingeniería de Software
 Tarea: T02.03  
 Grupo: B  
 
-Estudiantes:
+Integrantes:
 - Andrea Murillo Medina  
 - Andy Arévalo  
 
