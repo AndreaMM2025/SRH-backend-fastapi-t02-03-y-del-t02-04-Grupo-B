@@ -3,9 +3,11 @@ PROYECTO: SRH Backend – FastAPI
 Materia: Ingeniería de Software
 Tarea: T02.03
 Grupo: B
+
 Integrantes:
 - Andrea Murillo Medina
-- Andy Arevalo DUeñas
+- Andy Arevalo Dueñas
+
 
 --------------------------------------------------
 1. CREACIÓN DEL PROYECTO Y REPOSITORIO
@@ -16,17 +18,19 @@ Se creó el directorio del proyecto en el equipo local:
 mkdir srh-backend-fastapi
 cd srh-backend-fastapi
 
+
 --------------------------------------------------
 2. INICIALIZACIÓN DE GIT
 --------------------------------------------------
 
-Se inicializó el repositorio Git en el proyecto:
+Se inicializó el repositorio Git:
 
 git init
 
 Se verificó el estado del repositorio:
 
 git status
+
 
 --------------------------------------------------
 3. CONFIGURACIÓN DEL REPOSITORIO REMOTO
@@ -36,9 +40,10 @@ Se agregó el repositorio remoto de GitHub:
 
 git remote add origin https://github.com/AndreaMM2025/srh-backend-fastapi-t02-03-grupo-b.git
 
-Se verificó el repositorio remoto configurado:
+Se verificó el repositorio remoto:
 
 git remote -v
+
 
 --------------------------------------------------
 4. CREACIÓN DEL ENTORNO VIRTUAL
@@ -52,34 +57,34 @@ Se activó el entorno virtual (Windows):
 
 venv\Scripts\activate
 
+
 --------------------------------------------------
 5. INSTALACIÓN DE DEPENDENCIAS
 --------------------------------------------------
 
-Se instalaron las dependencias principales del proyecto:
+Se instalaron las dependencias del proyecto:
 
 pip install fastapi
 pip install uvicorn
 pip install pydantic[email]
 
+
 --------------------------------------------------
-6. EJECUCIÓN DEL SERVIDOR
+6. EJECUCIÓN DEL BACKEND
 --------------------------------------------------
 
-Se ejecutó el backend con Uvicorn:
+Se ejecutó el backend utilizando Uvicorn:
 
 uvicorn app.main:app --reload
 
-Se verificó el funcionamiento del backend en:
+Se verificó el funcionamiento del sistema en:
 
 http://127.0.0.1:8000
-
-Se verificó la documentación Swagger en:
-
 http://127.0.0.1:8000/docs
 
+
 --------------------------------------------------
-7. CONTROL DE VERSIONES – COMMITS
+7. CONTROL DE VERSIONES – COMMITS INICIALES
 --------------------------------------------------
 
 Se agregaron los archivos al área de staging:
@@ -94,11 +99,12 @@ Se subieron los cambios al repositorio remoto:
 
 git push --set-upstream origin main
 
+
 --------------------------------------------------
 8. ACTUALIZACIÓN DE DOCUMENTACIÓN
 --------------------------------------------------
 
-Se realizaron cambios en el archivo README.md para documentar el proyecto.
+Se modificó el archivo README.md para documentar el proyecto.
 
 Se agregaron los cambios al staging:
 
@@ -112,15 +118,53 @@ Se subieron los cambios a GitHub:
 
 git push
 
+
 --------------------------------------------------
-9. VERIFICACIÓN DE COMMITS
+9. SINCRONIZACIÓN DE CAMBIOS ENTRE INTEGRANTES
 --------------------------------------------------
 
-Se verificó el historial de commits:
+Cuando un integrante realizó cambios desde otro equipo, se sincronizó el
+repositorio local con el repositorio remoto mediante:
+
+git pull
+
+En caso de existir cambios locales pendientes, se utilizaron los siguientes
+comandos para evitar la pérdida de información:
+
+git stash
+git pull
+git stash pop
+
+
+--------------------------------------------------
+10. VERIFICACIÓN DEL HISTORIAL DE COMMITS
+--------------------------------------------------
+
+Se verificó el historial de commits del repositorio:
 
 git log --oneline
 
-Se comprobó que el repositorio se encontraba actualizado:
+Este comando permitió visualizar de forma resumida los commits realizados
+durante el desarrollo del proyecto.
+
+
+--------------------------------------------------
+11. VERIFICACIÓN DETALLADA DE COMMITS Y AUTORES
+--------------------------------------------------
+
+Se verificó la autoría de los commits mediante el comando:
+
+git log --pretty=format:"%h | %an | %ae | %ad | %s" --date=short
+
+Este comando permitió identificar claramente el autor, correo, fecha y mensaje
+de cada commit realizado por los integrantes del grupo.
+
+
+--------------------------------------------------
+12. ESTADO FINAL DEL REPOSITORIO
+--------------------------------------------------
+
+Se comprobó que el repositorio se encontraba actualizado y sin cambios pendientes:
 
 git status
 
