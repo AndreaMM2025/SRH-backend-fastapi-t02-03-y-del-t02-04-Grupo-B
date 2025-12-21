@@ -10,9 +10,9 @@ Grupo: B
 
 Integrantes:
 - Andrea Murillo Medina  
-- Andy Arévalo Dueñas
+- Andy Arévalo Dueñas  
 
-Fecha: 22/12/2025  
+Fecha: 23/12/2025  
 Docente: Darío Huilcapi  
 
 ---
@@ -62,16 +62,10 @@ automática de los endpoints mediante Swagger (OpenAPI).
 ## Documentación de Servicios
 
 Los servicios REST desarrollados se encuentran documentados mediante Swagger,
-accesible a través del endpoint:
+accesible a través de los siguientes endpoints:
 
 - Swagger UI: http://127.0.0.1:8000/docs  
 - OpenAPI JSON: http://127.0.0.1:8000/openapi.json  
-
----
-
-El repositorio fue compartido con los integrantes del grupo mediante la
-configuración de colaboradores en GitHub, permitiendo el trabajo colaborativo
-y el control de versiones.
 
 ---
 
@@ -83,11 +77,16 @@ equivalente al esquema modelo / repositorio / controlador / servicio definido en
 la consigna, lo que permite un código modular, ordenado y mantenible.
 
 ---
+
+## Trabajo Colaborativo y Control de Versiones
+
 El repositorio fue compartido con los integrantes del grupo mediante la
-configuración de colaboradores en GitHub, permitiendo el trabajo colaborativo
-y el control de versiones.
+configuración de colaboradores en GitHub, permitiendo el trabajo colaborativo,
+el seguimiento de cambios y el control de versiones a través de commits
+progresivos realizados por cada integrante.
 
 ---
+
 ## Ejecución y Visualización
 
 Para ejecutar el backend del SRH se debe iniciar el servidor con el siguiente
