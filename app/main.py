@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.routers import clientes, habitaciones, reservas, facturas, pagos, reportes
 
-app = FastAPI(title="SRH Backend")
+app = FastAPI(title="Sistema de Reservas de Hoteles (SRH) - Backend")
 
 @app.get("/")
 def root():
