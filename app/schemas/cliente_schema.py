@@ -1,3 +1,4 @@
+# Creación de ClienteCreate y ClienteResponse
 from pydantic import BaseModel, EmailStr
 
 class ClienteCreate(BaseModel):
