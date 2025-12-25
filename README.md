@@ -11,8 +11,9 @@ Grupo: B
 Integrantes:
 - Andrea Murillo Medina  
 - Andy Arévalo Dueñas  
+- Keyla Sisalima Torres
 
-Fecha: 23/12/2025  
+Fecha: 25/12/2025  
 Docente: Darío Huilcapi  
 
 ---
