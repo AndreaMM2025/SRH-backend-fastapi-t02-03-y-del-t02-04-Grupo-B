@@ -6,5 +6,5 @@ class Habitacion(BaseModel):
     id: Optional[int] = None
     numero: str
     tipo: str
-    precio: float
-    disponible: bool = True
+    tarifa: float
+    estado: str = "Disponible"
