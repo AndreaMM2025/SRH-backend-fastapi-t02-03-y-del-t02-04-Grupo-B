@@ -33,11 +33,17 @@ equipo.
 
 ## Asignación de Tareas
 
-- Diseño e implementación del backend (FastAPI): Andrea Murillo  
-- Gestión de clientes, habitaciones y reservas: Andrea Murillo  
-- Documentación Swagger y README: Andrea Murillo  
-- Apoyo en revisión, ajustes y mejoras del proyecto: Andy Arévalo  
-- Control de versiones y repositorio GitHub: Andrea Murillo y Andy Arévalo  
+- Diseño e implementación del backend (FastAPI): Andrea Murillo
+
+- Gestión de clientes, habitaciones y reservas: Andrea Murillo
+
+- Documentación Swagger y archivo README: Andrea Murillo
+
+- Elaboración del diagrama UML general del sistema (capas Controller, Service, Repository y CrudRepository): Keyla Sisalima
+
+- Apoyo en revisión, ajustes y mejoras del proyecto: Andy Arévalo
+
+- Control de versiones y gestión del repositorio GitHub: Andrea Murillo y Andy Arévalo
 
 ---
 
