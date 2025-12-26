@@ -1,9 +1,11 @@
 # Modelo: Cliente
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 class Cliente(BaseModel):
     id: Optional[int] = None
     nombre: str
-    correo: str
+    identificacion: str
     telefono: str
+    correo: EmailStr
+    nacionalidad: str
