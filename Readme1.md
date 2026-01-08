@@ -6,7 +6,9 @@ Backend del Sistema de Reservas de Hoteles (SRH)
 UNIVERSIDAD POLITÉCNICA SALESIANA – UPS
 
 Materia: Ingeniería de Software
+
 Tarea: T02.04 – Pruebas Unitarias
+
 Grupo: B
 
 Integrantes:
@@ -16,6 +18,7 @@ Integrantes:
 - Gregory Morán Silva
 
 Fecha: 09/01/2026
+
 Docente: Darío Huilcapi
 
 ---
