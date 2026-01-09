@@ -5,20 +5,18 @@ client = TestClient(app)
 
 def test_crear_factura_1():
     factura = {
-        "ID_FACTURA": 1,
-        "ID_RESERVA": 1,
-        "SUBTOTAL": 100.0,
-        "IMPUESTOS": 20.0,
-        "TOTAL": 120.0
+        "reserva_id": 1,
+        "subtotal": 100.0,
+        "impuestos": 20.0,
+        "total": 120.0
     }
 
     response = client.post("/api/facturas/", json=factura)
     assert response.status_code == 200
 
     data = response.json()
-    assert data["ID_FACTURA"] == 1
-    assert data["TOTAL"] == 120.0
-
+    assert data["total"] == 120.0
+    assert "id" in data
 
 def test_listar_facturas():
     response = client.get("/api/facturas/")
