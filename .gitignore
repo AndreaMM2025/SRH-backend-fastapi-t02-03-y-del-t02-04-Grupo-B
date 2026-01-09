@@ -13,3 +13,10 @@ __pycache__/
 
 # Variables de entorno
 .env
+
+# Coverage / Tests
+.coverage
+htmlcov/
+.coverage.*
+coverage.xml
+.pytest_cache/
