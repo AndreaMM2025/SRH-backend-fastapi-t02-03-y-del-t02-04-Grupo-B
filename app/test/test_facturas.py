@@ -22,6 +22,24 @@ def test_crear_factura_1():
     assert data["total"] == 120.0
     assert data["fecha"] == "2026-01-02"
 
+def test_crear_factura_2():
+    factura = {
+        "cliente_id": 2,
+        "reserva_id": 2,
+        "total": 120.0,
+        "fecha": "2026-02-05"
+    }
+
+    response = client.post("/api/facturas/", json=factura)
+    
+    assert response.status_code == 200, response.text
+
+    data = response.json()
+    assert data["cliente_id"] == 2
+    assert data["reserva_id"] == 2
+    
+    assert data["total"] == 120.0
+    assert data["fecha"] == "2026-02-05"
 
 def test_listar_facturas():
     response = client.get("/api/facturas/")
