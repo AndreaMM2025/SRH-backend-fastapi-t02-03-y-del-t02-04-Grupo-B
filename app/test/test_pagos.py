@@ -23,7 +23,7 @@ def test_crear_pago_2():
     pago = {
         "factura_id": 2,
         "fecha": "2026-02-05",
-        "monto": 150.0,
+        "monto": 50.0,
         "metodo": "Efectivo"
     }
 
@@ -31,7 +31,7 @@ def test_crear_pago_2():
     assert response.status_code == 200
 
     data = response.json()
-    assert data["monto"] == 150.0
+    assert data["monto"] == 50.0
     assert data["metodo"] == "Efectivo"
     assert "id" in data
 
