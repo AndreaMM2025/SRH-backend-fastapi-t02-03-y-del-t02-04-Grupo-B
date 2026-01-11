@@ -24,8 +24,8 @@ def test_crear_habitacion_1():
 def test_crear_habitacion_2():
     habitacion = {
         "numero": "102",
-        "tipo": "Simple",
-        "precio": 50.0,
+        "tipo": "Double",
+        "precio": 100.0,
         "disponible": False
     }
 
@@ -35,8 +35,8 @@ def test_crear_habitacion_2():
 
     data = response.json()
     assert data["numero"] == "102"
-    assert data["tipo"] == "Simple"
-    assert data["precio"] == 50.0
+    assert data["tipo"] == "Double"
+    assert data["precio"] == 100.0
     assert data["disponible"] is False
 
 def test_listar_habitaciones():
