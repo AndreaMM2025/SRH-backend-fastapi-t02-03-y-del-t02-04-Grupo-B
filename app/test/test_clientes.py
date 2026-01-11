@@ -25,7 +25,7 @@ def test_crear_cliente_2():
         "nombre": "Andy Arevalo",
         "identificacion": "0950000002",
         "telefono": "0990000002",
-        "correo": "andy2@est.ups.edu.ec",
+        "correo": "david@est.ups.edu.ec",
         "nacionalidad": "Argentina"
     }
     response = client.post("/api/clientes/", json=cliente)
