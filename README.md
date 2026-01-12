@@ -12,6 +12,7 @@ Integrantes:
 - Andrea Murillo Medina  
 - Andy Arévalo Dueñas  
 - Keyla Sisalima Torres
+- Kevin Ramírez Villón
 
 Fecha: 25/12/2025  
 Docente: Darío Huilcapi  
