@@ -7,7 +7,7 @@ def test_crear_pago_1():
     pago = {
         "factura_id": 1,
         "fecha": "2026-01-02",
-        "monto": 10.0,
+        "monto": 120.0,
         "metodo": "tarjeta"
     }
 
