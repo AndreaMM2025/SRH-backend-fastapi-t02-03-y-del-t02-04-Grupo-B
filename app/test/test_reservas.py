@@ -77,6 +77,23 @@ def test_crear_reserva_2():
     assert "id" in data
     assert "estado" in data
 
+def test_crear_reserva_3():
+    reserva = {
+        "cliente_id": 3,
+        "habitacion_id": 3,
+        "fecha_inicio": "2025-03-15",
+        "fecha_fin": "2025-03-20"
+    }
+
+    response = client.post("/api/reservas/", json=reserva)
+    assert response.status_code == 200, response.text
+    
+    data = response.json()
+    assert data["cliente_id"] == 3
+    assert data["habitacion_id"] == 3
+    assert "id" in data
+    assert "estado" in data
+
 def test_confirmar_reserva_2():
     reserva = {
         "cliente_id": 2,
