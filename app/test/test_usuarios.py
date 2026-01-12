@@ -56,7 +56,7 @@ def test_crear_usuario_3():
     data = response.json()
 
     # Validamos campos principales
-    assert data["nombre"] == "Kevin"
+    assert data["nombre"] == "Andres"
     assert data["rol"] == "Supervisor"
     assert data["estado"] is True
 
