@@ -60,16 +60,6 @@ def test_cancelar_reserva_1():
     assert data["id"] == reserva_id
     assert "estado" in data
 
-
-def test_confirmar_reserva_inexistente():
-    response = client.put("/api/reservas/999999/confirmar")
-    assert response.status_code == 404, response.text
-
-
-def test_cancelar_reserva_inexistente():
-    response = client.put("/api/reservas/999999/cancelar")
-    assert response.status_code == 404, response.text
-
 def test_crear_reserva_2():
     reserva = {
         "cliente_id": 2,
@@ -106,11 +96,11 @@ def test_confirmar_reserva_2():
     assert "estado" in data
 
 
-def test_cancelar_reserva_1():
+def test_cancelar_reserva_2():
     reserva = {
         "cliente_id": 2,
         "habitacion_id": 2,
-        "fecha_inicio": "2025-02-015",
+        "fecha_inicio": "2025-02-05",
         "fecha_fin": "2025-02-10"
     }
 
@@ -129,3 +119,13 @@ def test_listar_reservas():
     response = client.get("/api/reservas/")
     assert response.status_code == 200, response.text
     assert isinstance(response.json(), list)
+
+
+def test_confirmar_reserva_inexistente():
+    response = client.put("/api/reservas/999999/confirmar")
+    assert response.status_code == 404, response.text
+
+
+def test_cancelar_reserva_inexistente():
+    response = client.put("/api/reservas/999999/cancelar")
+    assert response.status_code == 404, response.text
