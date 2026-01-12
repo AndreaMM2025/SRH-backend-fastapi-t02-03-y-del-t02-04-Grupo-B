@@ -128,8 +128,8 @@ def test_crear_reserva_3():
     reserva = {
         "cliente_id": 3,
         "habitacion_id": 3,
-        "fecha_inicio": "2025-05-20",
-        "fecha_fin": "2025-05-25"
+        "fecha_inicio": "2025-05-19",
+        "fecha_fin": "2025-05-22"
     }
     response = client.post("/api/reservas/", json=reserva)
     assert response.status_code == 200, response.text
@@ -142,7 +142,7 @@ def test_confirmar_reserva_3():
     reserva = {
         "cliente_id": 3,
         "habitacion_id": 3,
-        "fecha_inicio": "2025-05-22",
+        "fecha_inicio": "2025-05-23",
         "fecha_fin": "2025-05-27"
     }
     response = client.put(f"/api/reservas/{reserva_id_3}/confirmar")
