@@ -16,6 +16,7 @@ Integrantes:
 - Andy Arévalo Dueñas
 - Keyla Sisalima Torres
 - Gregory Morán Silva
+- Kevin Ramirez Villón
 
 Fecha: 09/01/2026
 
