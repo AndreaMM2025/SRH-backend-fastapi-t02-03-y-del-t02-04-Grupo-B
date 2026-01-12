@@ -45,7 +45,7 @@ def test_crear_usuario_2():
 
 def test_crear_usuario_3():
     usuario = {
-        "nombre": "Kevin",
+        "nombre": "Andres",
         "rol": "Supervisor",
         "estado": True
     }
