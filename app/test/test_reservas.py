@@ -90,8 +90,8 @@ def test_confirmar_reserva_2():
     reserva = {
         "cliente_id": 2,
         "habitacion_id": 2,
-        "fecha_inicio": "2025-02-05",
-        "fecha_fin": "2025-02-10"
+        "fecha_inicio": "2025-02-06",
+        "fecha_fin": "2025-02-12"
     }
     r_create = client.post("/api/reservas/", json=reserva)
     assert r_create.status_code == 200, r_create.text
@@ -109,8 +109,8 @@ def test_cancelar_reserva_2():
     reserva = {
         "cliente_id": 2,
         "habitacion_id": 2,
-        "fecha_inicio": "2025-02-05",
-        "fecha_fin": "2025-02-10"
+        "fecha_inicio": "2025-02-15",
+        "fecha_fin": "2025-02-19"
     }
 
     r_create = client.post("/api/reservas/", json=reserva)
