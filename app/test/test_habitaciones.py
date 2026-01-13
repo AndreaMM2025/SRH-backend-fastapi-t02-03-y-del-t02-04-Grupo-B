@@ -56,6 +56,21 @@ def test_crear_habitacion_3():
     assert data["tipo"] == "Triple"
     assert data["precio"] == 150.0
     assert data["disponible"] is True
+    
+    
+    
+def test_crear_habitacion_4():
+    habitacion = {
+        "numero": "104", 
+        "tipo": "Suite", 
+        "precio": 200.0, 
+        "disponible": True
+    }
+    response = client.post("/api/habitaciones/", json=habitacion)
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert data["tipo"] == "Suite"
+    assert "id" in data
 
 def test_listar_habitaciones():
     response = client.get("/api/habitaciones/")
