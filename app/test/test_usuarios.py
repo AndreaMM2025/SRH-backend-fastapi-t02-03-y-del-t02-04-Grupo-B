@@ -63,6 +63,17 @@ def test_crear_usuario_3():
     # Validamos que el backend genere un id
     assert "id" in data
 
+def test_crear_usuario_4():
+    usuario = {
+        "nombre": "Nathaly", 
+        "rol": "Auditora", 
+        "estado": True}
+    response = client.post("/api/usuarios/", json=usuario)
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert data["nombre"] == "Nathaly"
+    assert "id" in data
+
 def test_listar_usuarios():
     response = client.get("/api/usuarios/")
     assert response.status_code == 200
