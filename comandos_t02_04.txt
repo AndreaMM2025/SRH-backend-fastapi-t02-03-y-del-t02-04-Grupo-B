@@ -142,7 +142,7 @@ git push
 
 
 --------------------------------------------------
-9. SUBIDA DE CAMBIOS AL REPOSITORIO
+11. SUBIDA DE CAMBIOS AL REPOSITORIO
 --------------------------------------------------
 
 Se subieron los cambios al repositorio remoto:
@@ -150,7 +150,7 @@ Se subieron los cambios al repositorio remoto:
 git push
 
 --------------------------------------------------
-10. VERIFICACIÓN FINAL
+12. VERIFICACIÓN FINAL
 --------------------------------------------------
 
 Se verificó el estado del repositorio:
