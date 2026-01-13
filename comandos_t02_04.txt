@@ -28,9 +28,29 @@ Se verificó el repositorio remoto:
 
 git remote -v
 
+--------------------------------------------------
+1. CREACIÓN Y ACTIVACIÓN DEL ENTORNO VIRTUAL
+--------------------------------------------------
+
+python -m venv 
+
+Activación en Windows:
+
+venv\Scripts\activate
+
 
 --------------------------------------------------
-1. CREACIÓN DE CARPETA DE PRUEBAS
+2. INSTALACIÓN DE DEPENDENCIAS
+--------------------------------------------------
+
+Se instalaron las dependencias necesarias:
+
+pip install pytest
+pip install coverage
+pip install -r requirements.txt
+
+--------------------------------------------------
+3. CREACIÓN DE CARPETA DE PRUEBAS
 --------------------------------------------------
 
 Se creó la carpeta de pruebas en la raíz del proyecto:
@@ -38,7 +58,7 @@ Se creó la carpeta de pruebas en la raíz del proyecto:
 mkdir test
 
 --------------------------------------------------
-2. CREACIÓN DE ARCHIVOS DE PRUEBAS
+4. CREACIÓN DE ARCHIVOS DE PRUEBAS
 --------------------------------------------------
 
 Se crearon los archivos de pruebas unitarias:
@@ -50,65 +70,75 @@ test_habitaciones.py
 test_reservas.py
 test_facturas.py
 test_pagos.py
+test_reportes.py
 
 --------------------------------------------------
-3. INSTALACIÓN DE FRAMEWORKS DE TESTING
+5. ACTUALIZACIÓN DEL PROYECTO DESDE GITHUB
 --------------------------------------------------
+Se descargaron los últimos cambios realizados por los compañeros del grupo:
 
-Se instalaron las dependencias necesarias:
-
-pip install pytest
-pip install coverage
+git pull origin main
 
 --------------------------------------------------
-4. EJECUCIÓN DE PRUEBAS UNITARIAS
+6. EJECUCIÓN DE PRUEBAS UNITARIAS
 --------------------------------------------------
 
 Se ejecutaron todas las pruebas unitarias:
 
-pytest
+python -m pytest app/test -v
+
+Resultado esperado:
+
+Todas las pruebas en estado PASSED
+
 
 --------------------------------------------------
-5. ANÁLISIS DE COBERTURA
+7. ANÁLISIS DE COBERTURA
 --------------------------------------------------
 
-Se ejecutó el análisis de cobertura de código:
+Se limpió la información de cobertura anterior:
 
-coverage run -m pytest
-coverage report -m
+python -m coverage erase
+
+Se ejecutaron las pruebas con análisis de cobertura:
+
+python -m coverage run -m pytest app/test -v
+
+Se generó el reporte de cobertura en consola:
+
+python -m coverage report -m
+
 
 --------------------------------------------------
-6. COMMITS DE PRUEBAS UNITARIAS
+8. GENERACIÓN DE REPORTE HTML DE COVERAGE
+--------------------------------------------------
+Se generó el reporte visual en HTML:
+
+python -m coverage html
+
+Se abrió el reporte en el navegador (Windows):
+
+start htmlcov/index.html
+
+--------------------------------------------------
+9. COMMITS DE PRUEBAS UNITARIAS
 --------------------------------------------------
 
 Se agregaron los archivos de pruebas:
 
 git add test/
-git commit -m "test: agregar pruebas unitarias del backend"
+git commit -m "Agregar pruebas unitarias del backend"
+git push
 
 --------------------------------------------------
-7. ACTUALIZACIÓN DE DOCUMENTACIÓN
+10. ACTUALIZACIÓN DE DOCUMENTACIÓN
 --------------------------------------------------
 
 Se actualizó el archivo README.md para la T02.04:
 
 git add README1.md
 git commit -m "docs: actualizar README1 para T02.04"
-
---------------------------------------------------
-8. ACTUALIZACIÓN DE DEPENDENCIAS
---------------------------------------------------
-
-Se actualizó el archivo requirements.txt:
-
-git add requirements.txt
-git commit -m "chore: agregar pytest y coverage"
-
-
-Se agregó el archivo de bitácora al repositorio:
-
-git add comandos_t02_04.txt
-git commit -m "docs: agregar bitácora de comandos T02.04"
+git push
 
 
 --------------------------------------------------
