@@ -51,6 +51,18 @@ def test_crear_pago_3():
     assert data["metodo"] == "Efectivo"
     assert "id" in data
 
+def test_crear_pago_4():
+    pago = {
+        "factura_id": 4, 
+        "fecha": "2025-12-29", 
+        "monto": 230.0, 
+        "metodo": "transferencia"
+    }
+    response = client.post("/api/pagos/", json=pago)
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert data["metodo"] == "transferencia"
+
 def test_listar_pagos():
     response = client.get("/api/pagos/")
     assert response.status_code == 200
