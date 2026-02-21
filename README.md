@@ -13,6 +13,7 @@ Integrantes:
 - Andy Arévalo Dueñas  
 - Keyla Sisalima Torres
 - Kevin Ramírez Villón
+- Gregory Morán Silva  
 
 Fecha: 25/12/2025  
 Docente: Darío Huilcapi  
