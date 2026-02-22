@@ -3,9 +3,9 @@ from pydantic import BaseModel, EmailStr
 
 class ClienteCreate(BaseModel):
     nombre: str
-    correo: EmailStr
+    identificacion: str
     telefono: str
-    identidad: str
+    correo: EmailStr
     nacionalidad: str
 
 class ClienteResponse(ClienteCreate):
