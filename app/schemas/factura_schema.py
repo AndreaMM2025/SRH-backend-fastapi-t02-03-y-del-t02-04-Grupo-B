@@ -1,17 +1,22 @@
 from pydantic import BaseModel
-from datetime import date
+from typing import Optional
 
 class FacturaCreate(BaseModel):
     cliente_id: int
     reserva_id: int
     total: float
-    fecha: date
+    fecha: str
 
-class FacturaResponse(FacturaCreate):
-    id: int
-    
 class FacturaUpdate(BaseModel):
-    cliente_id: int | None = None
-    reserva_id: int | None = None
-    total: float | None = None
-    fecha: date | None = None
+    cliente_id: Optional[int] = None
+    reserva_id: Optional[int] = None
+    total: Optional[float] = None
+    fecha: Optional[str] = None
+
+class FacturaResponse(BaseModel):
+    id: int
+    cliente_id: int
+    reserva_id: int
+    total: float
+    fecha: str
+    estado: str  # ✅ NUEVO

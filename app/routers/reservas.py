@@ -1,6 +1,7 @@
 #  Endpoints reservas con estados
 from fastapi import APIRouter, HTTPException
 from app.schemas.reserva_schema import ReservaCreate, ReservaResponse
+from app.core.inmemory_db import reservas_db
 
 router = APIRouter(
     prefix="/api/reservas",
