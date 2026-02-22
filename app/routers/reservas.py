@@ -1,15 +1,13 @@
 #  Endpoints reservas con estados
 from fastapi import APIRouter, HTTPException
 from app.schemas.reserva_schema import ReservaCreate, ReservaResponse
-from app.core.inmemory_db import reservas_db, facturas_db
+from app.db.memory_db import reservas_db, facturas_db, clientes_db
 
 router = APIRouter(
     prefix="/api/reservas",
     tags=["Reservas"]
 )
 
-# Base de datos en memoria
-reservas_db: list[dict] = []
 
 @router.get("/", response_model=list[ReservaResponse])
 def listar_reservas():
@@ -45,3 +43,32 @@ def cancelar_reserva(reserva_id: int):
             f["estado"] = "cancelada"
 
     return {"ok": True, "reserva": r}
+
+@router.delete("/{cliente_id}")
+def eliminar_cliente(cliente_id: int):
+    # 1) buscar cliente
+    idx = next((i for i, c in enumerate(clientes_db) if c["id"] == cliente_id), None)
+    if idx is None:
+        raise HTTPException(status_code=404, detail="Cliente no encontrado")
+
+    # 2) sacar reservas del cliente (guardar ids)
+    reservas_del_cliente = [r for r in reservas_db if r.get("cliente_id") == cliente_id]
+    ids_reservas = {r["id"] for r in reservas_del_cliente}
+
+    # 3) eliminar reservas del cliente
+    reservas_db[:] = [r for r in reservas_db if r.get("cliente_id") != cliente_id]
+
+    # 4) eliminar facturas del cliente + facturas por reserva (por si acaso)
+    facturas_db[:] = [
+        f for f in facturas_db
+        if f.get("cliente_id") != cliente_id and f.get("reserva_id") not in ids_reservas
+    ]
+
+    # 5) eliminar cliente
+    clientes_db.pop(idx)
+
+    return {
+        "ok": True,
+        "message": "Cliente eliminado con reservas y facturas asociadas",
+        "reservas_eliminadas": len(ids_reservas),
+    }

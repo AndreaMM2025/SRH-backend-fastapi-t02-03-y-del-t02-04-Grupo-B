@@ -1,7 +1,7 @@
 # Creación de clientes
 from fastapi import APIRouter, HTTPException, Query
 from app.schemas.cliente_schema import ClienteCreate, ClienteResponse
-from app.db.memory import clientes_db, reservas_db, facturas_db
+from app.db.memory_db import clientes_db, reservas_db, facturas_db
 
 router = APIRouter(
     prefix="/api/clientes",
@@ -49,35 +49,29 @@ def actualizar_cliente(cliente_id: int, cliente: ClienteCreate):
 
 @router.delete("/{cliente_id}")
 def eliminar_cliente(cliente_id: int):
-    # 1) verificar cliente existe
+    # 1) buscar cliente
     idx = next((i for i, c in enumerate(clientes_db) if c["id"] == cliente_id), None)
     if idx is None:
         raise HTTPException(status_code=404, detail="Cliente no encontrado")
 
-    # 2) obtener reservas del cliente
-    reserva_ids = [r["id"] for r in reservas_db if r.get("cliente_id") == cliente_id]
+    # 2) sacar reservas del cliente (guardar ids)
+    reservas_del_cliente = [r for r in reservas_db if r.get("cliente_id") == cliente_id]
+    ids_reservas = {r["id"] for r in reservas_del_cliente}
 
-    # 3) borrar facturas asociadas a esas reservas o al cliente
-    # (por seguridad: por reserva_id y por cliente_id)
-    facturas_antes = len(facturas_db)
+    # 3) eliminar reservas del cliente
+    reservas_db[:] = [r for r in reservas_db if r.get("cliente_id") != cliente_id]
+
+    # 4) eliminar facturas del cliente + facturas por reserva (por si acaso)
     facturas_db[:] = [
         f for f in facturas_db
-        if (f.get("cliente_id") != cliente_id) and (f.get("reserva_id") not in reserva_ids)
+        if f.get("cliente_id") != cliente_id and f.get("reserva_id") not in ids_reservas
     ]
-    facturas_borradas = facturas_antes - len(facturas_db)
 
-    # 4) borrar reservas del cliente
-    reservas_antes = len(reservas_db)
-    reservas_db[:] = [r for r in reservas_db if r.get("cliente_id") != cliente_id]
-    reservas_borradas = reservas_antes - len(reservas_db)
-
-    # 5) borrar cliente
+    # 5) eliminar cliente
     clientes_db.pop(idx)
 
     return {
         "ok": True,
-        "message": "Cliente eliminado con cascada",
-        "cliente_id": cliente_id,
-        "reservas_eliminadas": reservas_borradas,
-        "facturas_eliminadas": facturas_borradas,
+        "message": "Cliente eliminado con reservas y facturas asociadas",
+        "reservas_eliminadas": len(ids_reservas),
     }
