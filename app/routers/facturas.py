@@ -1,6 +1,7 @@
 # Creación de facturas
 from fastapi import APIRouter, HTTPException
 from app.schemas.factura_schema import FacturaCreate, FacturaResponse, FacturaUpdate
+from app.db.memory import facturas_db, reservas_db, next_id
 
 router = APIRouter(prefix="/api/facturas", tags=["Facturas"])
 
@@ -43,33 +44,34 @@ def _estado_factura_por_reserva(reserva: dict | None) -> str:
 # =========================
 @router.get("/", response_model=list[FacturaResponse])
 def listar_facturas():
-    # ✅ orden 1,2,3... (ascendente)
-    return sorted(facturas_db, key=lambda x: x["id"])
-
+    return facturas_db
 
 @router.post("/", response_model=FacturaResponse)
 def crear_factura(factura: FacturaCreate):
-    # opcional: validar que exista reserva si ya la manejas en memoria
-    reserva = _find_by_id(reservas_db, factura.reserva_id)
+    # Estado depende de la reserva (si existe)
+    estado = "pendiente"
+    r = next((x for x in reservas_db if x["id"] == factura.reserva_id), None)
+    if r:
+        est = (r.get("estado") or "").lower()
+        if "cancel" in est:
+            estado = "cancelada"
+        elif "confirm" in est:
+            estado = "emitida"
 
     nueva = {
-        "id": _next_id(facturas_db),
+        "id": next_id(facturas_db),
         **factura.model_dump(),
-        # ✅ NUEVO campo estado (se calcula por estado de reserva)
-        "estado": _estado_factura_por_reserva(reserva),
+        "estado": estado,
     }
-
     facturas_db.append(nueva)
     return nueva
 
-
 @router.get("/{factura_id}", response_model=FacturaResponse)
 def obtener_factura(factura_id: int):
-    f = _find_by_id(facturas_db, factura_id)
+    f = next((x for x in facturas_db if x["id"] == factura_id), None)
     if not f:
         raise HTTPException(status_code=404, detail="Factura no encontrada")
     return f
-
 
 @router.put("/{factura_id}", response_model=FacturaResponse)
 def actualizar_factura(factura_id: int, data: FacturaUpdate):
@@ -79,22 +81,9 @@ def actualizar_factura(factura_id: int, data: FacturaUpdate):
 
     actual = facturas_db[idx]
     cambios = data.model_dump(exclude_unset=True)
-
-    # ✅ si cambian reserva_id, recalcular estado
-    if "reserva_id" in cambios:
-        reserva = _find_by_id(reservas_db, cambios["reserva_id"])
-        # recalcula estado automáticamente
-        actual["estado"] = _estado_factura_por_reserva(reserva)
-
-    # si NO cambió reserva_id, igual conviene recalcular por si reserva cambió
-    else:
-        reserva = _find_by_id(reservas_db, actual.get("reserva_id"))
-        actual["estado"] = _estado_factura_por_reserva(reserva)
-
     actual.update(cambios)
     facturas_db[idx] = actual
     return actual
-
 
 @router.delete("/{factura_id}")
 def eliminar_factura(factura_id: int):
@@ -105,8 +94,7 @@ def eliminar_factura(factura_id: int):
     facturas_db.pop(idx)
     return {"ok": True, "message": "Factura eliminada"}
 
-
-# =========================
+# x 
 # CANCELAR RESERVA (EN MEMORIA)
 # =========================
 @router.put("/reservas/{reserva_id}/cancelar")

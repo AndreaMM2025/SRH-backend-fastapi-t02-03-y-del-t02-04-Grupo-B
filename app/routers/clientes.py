@@ -1,6 +1,7 @@
 # Creación de clientes
 from fastapi import APIRouter, HTTPException, Query
 from app.schemas.cliente_schema import ClienteCreate, ClienteResponse
+from app.db.memory import clientes_db, reservas_db, facturas_db
 
 router = APIRouter(
     prefix="/api/clientes",
@@ -48,8 +49,35 @@ def actualizar_cliente(cliente_id: int, cliente: ClienteCreate):
 
 @router.delete("/{cliente_id}")
 def eliminar_cliente(cliente_id: int):
-    for i, c in enumerate(clientes_db):
-        if c["id"] == cliente_id:
-            clientes_db.pop(i)
-            return {"ok": True}
-    raise HTTPException(status_code=404, detail="Cliente no encontrado")
+    # 1) verificar cliente existe
+    idx = next((i for i, c in enumerate(clientes_db) if c["id"] == cliente_id), None)
+    if idx is None:
+        raise HTTPException(status_code=404, detail="Cliente no encontrado")
+
+    # 2) obtener reservas del cliente
+    reserva_ids = [r["id"] for r in reservas_db if r.get("cliente_id") == cliente_id]
+
+    # 3) borrar facturas asociadas a esas reservas o al cliente
+    # (por seguridad: por reserva_id y por cliente_id)
+    facturas_antes = len(facturas_db)
+    facturas_db[:] = [
+        f for f in facturas_db
+        if (f.get("cliente_id") != cliente_id) and (f.get("reserva_id") not in reserva_ids)
+    ]
+    facturas_borradas = facturas_antes - len(facturas_db)
+
+    # 4) borrar reservas del cliente
+    reservas_antes = len(reservas_db)
+    reservas_db[:] = [r for r in reservas_db if r.get("cliente_id") != cliente_id]
+    reservas_borradas = reservas_antes - len(reservas_db)
+
+    # 5) borrar cliente
+    clientes_db.pop(idx)
+
+    return {
+        "ok": True,
+        "message": "Cliente eliminado con cascada",
+        "cliente_id": cliente_id,
+        "reservas_eliminadas": reservas_borradas,
+        "facturas_eliminadas": facturas_borradas,
+    }

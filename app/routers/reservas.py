@@ -1,7 +1,7 @@
 #  Endpoints reservas con estados
 from fastapi import APIRouter, HTTPException
 from app.schemas.reserva_schema import ReservaCreate, ReservaResponse
-from app.core.inmemory_db import reservas_db
+from app.core.inmemory_db import reservas_db, facturas_db
 
 router = APIRouter(
     prefix="/api/reservas",
@@ -33,10 +33,15 @@ def confirmar_reserva(reserva_id: int):
             return r
     raise HTTPException(status_code=404, detail="Reserva no encontrada")
 
-@router.put("/{reserva_id}/cancelar", response_model=ReservaResponse)
+@router.put("/{reserva_id}/cancelar")
 def cancelar_reserva(reserva_id: int):
-    for r in reservas_db:
-        if r["id"] == reserva_id:
-            r["estado"] = "cancelada"
-            return r
-    raise HTTPException(status_code=404, detail="Reserva no encontrada")
+    r = next((x for x in reservas_db if x["id"] == reserva_id), None)
+    if not r:
+        raise HTTPException(status_code=404, detail="Reserva no encontrada")
+
+    r["estado"] = "cancelada"
+    for f in facturas_db:
+        if f.get("reserva_id") == reserva_id:
+            f["estado"] = "cancelada"
+
+    return {"ok": True, "reserva": r}
