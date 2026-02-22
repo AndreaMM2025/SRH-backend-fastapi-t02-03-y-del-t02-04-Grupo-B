@@ -1,10 +1,12 @@
-# Creación de ClienteCreate y ClienteResponse
+from typing import Optional
 from pydantic import BaseModel, EmailStr
 
 class ClienteCreate(BaseModel):
     nombre: str
-    correo: EmailStr
+    identificacion: str
     telefono: str
+    correo: EmailStr
+    nacionalidad: str
 
-class ClienteResponse(ClienteCreate):
+class ClienteOut(ClienteCreate):
     id: int
