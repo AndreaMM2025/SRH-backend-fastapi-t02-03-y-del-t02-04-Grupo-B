@@ -1,10 +1,11 @@
 # Creación de habitaciones
 from fastapi import APIRouter, HTTPException
 from app.schemas.habitacion_schema import HabitacionCreate, HabitacionResponse
+from app.db.memory_db import habitaciones_db, next_id, find_by_id  # ✅ Ya está importado
 
 router = APIRouter(prefix="/api/habitaciones", tags=["Habitaciones"])
 
-habitaciones_db: list[dict] = []
+# ✅ ELIMINAR ESTA LÍNEA: habitaciones_db: list[dict] = []
 
 @router.get("/", response_model=list[HabitacionResponse])
 def listar_habitaciones():

@@ -1,16 +1,23 @@
-# app/db/memory_db.py
+from typing import List, Dict, Any
 
-from typing import List, Dict
+# ======= DBs en memoria =======
+clientes_db: List[Dict[str, Any]] = []
+habitaciones_db: List[Dict[str, Any]] = [] 
+reservas_db: List[Dict[str, Any]] = []
+facturas_db: List[Dict[str, Any]] = []
+pagos_db: List[Dict[str, Any]] = []
+usuarios_db: List[Dict[str, Any]] = []
 
-# app/db/memory_db.py
-clientes_db: list[dict] = []
-habitaciones_db: list[dict] = []
-reservas_db: list[dict] = []
-facturas_db: list[dict] = []
-pagos_db: list[dict] = []
+def next_id(db: List[Dict[str, Any]]) -> int:
+    return max([x.get("id", 0) for x in db], default=0) + 1
 
-def next_id(db_list: List[Dict]) -> int:
-    return max([x.get("id", 0) for x in db_list], default=0) + 1
+def find_by_id(db: List[Dict[str, Any]], _id: int):
+    return next((x for x in db if x.get("id") == _id), None)
 
-def find_by_id(db_list: List[Dict], _id: int):
-    return next((x for x in db_list if x.get("id") == _id), None)
+
+def delete_by_id(db: List[Dict[str, Any]], _id: int) -> bool:
+    idx = next((i for i, x in enumerate(db) if x.get("id") == _id), None)
+    if idx is None:
+        return False
+    db.pop(idx)
+    return True

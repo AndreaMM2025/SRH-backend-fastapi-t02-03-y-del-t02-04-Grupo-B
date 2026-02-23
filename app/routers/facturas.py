@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from app.db.memory_db import facturas_db, reservas_db, next_id, find_by_id
+from app.db.memory_db import facturas_db, reservas_db, pagos_db, next_id, find_by_id
 
 router = APIRouter(prefix="/api/facturas", tags=["Facturas"])
 
@@ -47,5 +47,8 @@ def eliminar_factura(factura_id: int):
     if not f:
         raise HTTPException(status_code=404, detail="Factura no encontrada")
 
+    pagos_db[:] = [p for p in pagos_db if p.get("factura_id") != factura_id]
+
     facturas_db[:] = [x for x in facturas_db if x.get("id") != factura_id]
-    return {"ok": True, "message": "Factura eliminada"}
+    
+    return {"ok": True, "message": "Factura y pagos asociados eliminados"}
