@@ -207,10 +207,18 @@ def reporte_reservas(
 ):
     reservas_filtradas = reservas_db
 
+    #  Filtrar por rango usando fecha_inicio y fecha_fin de la reserva
     if fecha_inicio:
-        reservas_filtradas = [r for r in reservas_filtradas if r.get("fecha_inicio", "") >= fecha_inicio]
+        reservas_filtradas = [
+            r for r in reservas_filtradas
+            if (r.get("fecha_inicio", "") >= fecha_inicio)
+        ]
+
     if fecha_fin:
-        reservas_filtradas = [r for r in reservas_filtradas if r.get("fecha_fin", "") <= fecha_fin]
+        reservas_filtradas = [
+            r for r in reservas_filtradas
+            if (r.get("fecha_fin", "") <= fecha_fin)
+        ]
 
     confirmadas = len([r for r in reservas_filtradas if r.get("estado") == "confirmada"])
     pendientes = len([r for r in reservas_filtradas if r.get("estado") == "pendiente"])
@@ -225,8 +233,13 @@ def reporte_reservas(
             "reserva_id": reserva.get("id"),
             "cliente": cliente.get("nombre") if cliente else "N/A",
             "habitacion": habitacion.get("numero") if habitacion else "N/A",
+
+
+            "fecha": reserva.get("fecha_inicio"),
+
             "fecha_inicio": reserva.get("fecha_inicio"),
             "fecha_fin": reserva.get("fecha_fin"),
+
             "estado": reserva.get("estado")
         })
 
