@@ -21,29 +21,27 @@ def crear_pago(data: dict):
       "estado": "aprobado" (opcional)
     }
     """
-
     factura_id = data.get("factura_id")
     if not factura_id:
         raise HTTPException(status_code=400, detail="factura_id es requerido")
 
-    # validar que exista la factura
     f = find_by_id(facturas_db, int(factura_id))
     if not f:
         raise HTTPException(status_code=400, detail="Factura no existe")
 
-    # estado por defecto (si no viene)
     estado = data.get("estado")
     if not estado:
-        # Si la factura está cancelada -> pago anulado
-        if (f.get("estado") or "").lower() == "cancelada":
+        est_fact = (f.get("estado") or "").lower()
+        if est_fact == "cancelada":
             estado = "anulado"
-        else:
+        elif est_fact == "pendiente":
+            estado = "pendiente"
+        else:  # emitida
             estado = "aprobado"
 
     nueva = {"id": next_id(pagos_db), **data, "estado": estado}
     pagos_db.append(nueva)
     return nueva
-
 
 @router.put("/{pago_id}")
 def actualizar_pago(pago_id: int, data: dict):
@@ -51,23 +49,22 @@ def actualizar_pago(pago_id: int, data: dict):
     if not p:
         raise HTTPException(status_code=404, detail="Pago no encontrado")
 
-    # si cambian factura_id -> validar
     if "factura_id" in data and data["factura_id"] is not None:
         f = find_by_id(facturas_db, int(data["factura_id"]))
         if not f:
             raise HTTPException(status_code=400, detail="Factura no existe")
 
-        # si la factura está cancelada, el pago debe quedar anulado
-        if (f.get("estado") or "").lower() == "cancelada":
-            data["estado"] = "anulado"
-
-    # aplicar cambios
     p.update(data)
 
-    # regla extra: si la factura asociada está cancelada -> pago anulado
     f2 = find_by_id(facturas_db, int(p.get("factura_id", 0))) if p.get("factura_id") else None
-    if f2 and (f2.get("estado") or "").lower() == "cancelada":
-        p["estado"] = "anulado"
+    if f2:
+        est_fact = (f2.get("estado") or "").lower()
+        if est_fact == "cancelada":
+            p["estado"] = "anulado"
+        elif est_fact == "pendiente":
+            p["estado"] = "pendiente"
+        else:
+            p["estado"] = "aprobado"
 
     return p
 

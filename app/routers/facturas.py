@@ -3,6 +3,20 @@ from app.db.memory_db import facturas_db, reservas_db, pagos_db, next_id, find_b
 
 router = APIRouter(prefix="/api/facturas", tags=["Facturas"])
 
+
+# Helper
+
+def _sync_pagos_por_factura(factura_id: int, estado_factura: str):
+    est = (estado_factura or "").lower()
+    for p in pagos_db:
+        if p.get("factura_id") == factura_id:
+            if est == "cancelada":
+                p["estado"] = "anulado"
+            elif est == "pendiente":
+                p["estado"] = "pendiente"
+            else:  # emitida
+                p["estado"] = "aprobado"
+
 @router.get("/")
 def listar_facturas():
     return facturas_db
@@ -24,6 +38,8 @@ def crear_factura(data: dict):
 
     nueva = {"id": next_id(facturas_db), **data, "estado": estado}
     facturas_db.append(nueva)
+
+    _sync_pagos_por_factura(nueva["id"], nueva["estado"])
     return nueva
 
 @router.put("/{factura_id}")
@@ -36,9 +52,16 @@ def actualizar_factura(factura_id: int, data: dict):
 
     reserva_id = f.get("reserva_id")
     r = next((x for x in reservas_db if x.get("id") == reserva_id), None)
-    if r and (r.get("estado") or "").lower() == "cancelada":
-        f["estado"] = "cancelada"
+    if r:
+        est_res = (r.get("estado") or "").lower()
+        if est_res == "cancelada":
+            f["estado"] = "cancelada"
+        elif est_res == "confirmada":
+            f["estado"] = "emitida"
+        else:
+            f["estado"] = "pendiente"
 
+    _sync_pagos_por_factura(factura_id, f["estado"])
     return f
 
 @router.delete("/{factura_id}")

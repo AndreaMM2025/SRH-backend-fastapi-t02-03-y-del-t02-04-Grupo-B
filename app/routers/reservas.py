@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.schemas.reserva_schema import ReservaCreate, ReservaUpdate, ReservaResponse
-from app.db.memory_db import reservas_db, facturas_db
+from app.db.memory_db import reservas_db, facturas_db, pagos_db
 from datetime import datetime
 
 router = APIRouter(prefix="/api/reservas", tags=["Reservas"])
@@ -8,17 +8,17 @@ router = APIRouter(prefix="/api/reservas", tags=["Reservas"])
 def _find_by_id(db: list[dict], _id: int):
     return next((x for x in db if x.get("id") == _id), None)
 
-# ✅ VALIDACIÓN: Verificar si hay fechas solapadas
+# VALIDACIÓN: Verificar si hay fechas solapadas
 def _fechas_solapan(inicio1: str, fin1: str, inicio2: str, fin2: str) -> bool:
     """Retorna True si las fechas se solapan"""
     return inicio1 < fin2 and fin1 > inicio2
 
-# ✅ VALIDACIÓN: Verificar si el cliente ya tiene reserva activa en ese período
+#  VALIDACIÓN: Verificar si el cliente ya tiene reserva activa en ese período
 def _validar_reserva_duplicada(cliente_id: int, fecha_inicio: str, fecha_fin: str, reserva_id: int = None):
     """
     Valida que el cliente no tenga otra reserva activa con fechas solapadas.
     - reserva_id: Si se proporciona, se excluye esa reserva (para actualizaciones)
-    """
+    """ 
     for r in reservas_db:
         # Excluir la misma reserva (para actualizaciones)
         if reserva_id and r.get("id") == reserva_id:
@@ -95,6 +95,9 @@ def confirmar(reserva_id: int):
     for f in facturas_db:
         if f.get("reserva_id") == reserva_id:
             f["estado"] = "emitida"
+            for p in pagos_db:
+                if p.get("factura_id") == f.get("id"):
+                    p["estado"] = "aprobado"
 
     return r
 
@@ -106,10 +109,12 @@ def cancelar(reserva_id: int):
 
     r["estado"] = "cancelada"
 
-    # cancelar facturas asociadas
     for f in facturas_db:
         if f.get("reserva_id") == reserva_id:
             f["estado"] = "cancelada"
+            for p in pagos_db:
+                if p.get("factura_id") == f.get("id"):
+                    p["estado"] = "anulado"
 
     return r
 
