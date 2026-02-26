@@ -1,4 +1,4 @@
-# app/routers/pagos.py
+# app/routers/pagos.py creacion de pagos
 
 from fastapi import APIRouter, HTTPException
 from app.db.memory_db import pagos_db, facturas_db, next_id, find_by_id, delete_by_id
